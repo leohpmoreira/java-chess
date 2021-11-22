@@ -1,14 +1,19 @@
 package com.fklm.javachess.model.chessmen;
 
+import com.fklm.javachess.ChessApplication;
 import javafx.scene.image.Image;
+
+import java.io.IOException;
 
 public abstract class Piece {
     private final String color;
     private Image image;
+    private String type;
 
-    public Piece(String color, Image image) {
+    public Piece(String color,String type) {
         this.color = color;
-        this.image = image;
+        this.type = type;
+        this.setImage(color,type);
     }
 
     public String getColor() {
@@ -19,7 +24,16 @@ public abstract class Piece {
         return image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(String color,String type) {
+        String path;
+        if(color.equals("black")){
+            path = new String("b_" + type +"_1x.png");
+        }
+        else{
+            path = new String("w_" + type +"_1x.png");
+        }
+        this.image = new Image(ChessApplication.class.getResourceAsStream("images/"+path));
     }
+
+    abstract void movement();
 }
