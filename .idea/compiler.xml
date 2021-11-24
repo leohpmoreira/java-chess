@@ -13,4 +13,9 @@
       <module name="java-chess" target="17" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="java-chess" options="--add-exports java.datatransfer/java.awt=com.fklm.javachess" />
+    </option>
+  </component>
 </project>
