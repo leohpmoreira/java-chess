@@ -1,5 +1,6 @@
 package com.fklm.javachess.controller;
 
+
 import com.fklm.javachess.*;
 import com.fklm.javachess.model.chessmen.*;
 import javafx.event.ActionEvent;
@@ -11,8 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -128,5 +127,4 @@ public class BoardController {
             }
         }
     }
-
 }
