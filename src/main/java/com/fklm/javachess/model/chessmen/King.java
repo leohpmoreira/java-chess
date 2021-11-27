@@ -10,14 +10,13 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean isLegalMove(GameState gameState, Move move) {
-        return false;
+    public boolean isLegalMove( Move move) {
+        if(move.getDistance() == 1)
+            return true;
+        else
+            return false;
     }
 
-    @Override
-    public void makeMove(GameState gameState, Move move) {
-        return;
-    }
 
     @Override
     public void putImage(Player color) {

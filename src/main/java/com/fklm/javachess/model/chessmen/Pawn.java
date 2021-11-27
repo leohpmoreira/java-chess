@@ -1,7 +1,7 @@
 package com.fklm.javachess.model.chessmen;
 
 import com.fklm.javachess.ChessApplication;
-import com.fklm.javachess.GameState;
+import com.fklm.javachess.BoardStatus;
 import com.fklm.javachess.Move;
 import com.fklm.javachess.Player;
 import javafx.scene.image.Image;
@@ -25,13 +25,9 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean isLegalMove(GameState gameState, Move move) {
-        return false;
+    public boolean isLegalMove( Move move) {
+        return true;
     }
 
-    @Override
-    public void makeMove(GameState gameState, Move move) {
-
-    }
 
 }

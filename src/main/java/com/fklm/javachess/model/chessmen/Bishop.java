@@ -1,11 +1,10 @@
 package com.fklm.javachess.model.chessmen;
 
 import com.fklm.javachess.ChessApplication;
-import com.fklm.javachess.GameState;
+import com.fklm.javachess.BoardStatus;
 import com.fklm.javachess.Move;
 import com.fklm.javachess.Player;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Bishop extends Piece{
     public Bishop(Player color, int type) {
@@ -23,13 +22,10 @@ public class Bishop extends Piece{
         setImage(image);
     }
     @Override
-    public boolean isLegalMove(GameState gameState, Move move) {
-        return false;
+    public boolean isLegalMove(Move move) {
+        return move.diagonal();
     }
 
-    @Override
-    public void makeMove(GameState gameState, Move move) {
-    }
 
 
 }

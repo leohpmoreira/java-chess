@@ -2,9 +2,6 @@ package com.fklm.javachess.model.chessmen;
 
 import com.fklm.javachess.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.io.IOException;
 
 public abstract class Piece {
     private final Player color;
@@ -49,8 +46,7 @@ public abstract class Piece {
         this.image = image;
     };
 
-    public abstract boolean isLegalMove(GameState gameState, Move move);
-    public abstract void makeMove(GameState gameState, Move move);
+    public abstract boolean isLegalMove(Move move);
     public abstract void putImage(Player color);
 
     public int getType() {

@@ -5,8 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 public class Space extends Button {
     public Position position;
+    public ArrayList<Position>
     public Piece piece;
 
     public Space (int x, int y){
