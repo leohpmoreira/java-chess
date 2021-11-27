@@ -1,0 +1,23 @@
+.button{
+    -fx-alignment: center;
+    -fx-padding: 0;
+    -fx-min-width: 62.5px;
+    -fx-min-height: 62.5px;
+    -fx-background-size: 62.5px;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+.lightSpace{
+    -fx-background-color: white;
+
+}
+.darkSpace{
+    -fx-background-color: lightblue;
+}
+.board{
+    fx-alignment: center;
+}
+.greenFocusHighlight:focused{
+    -fx-border-width: 2;
+    -fx-border-color: limegreen;
+}
