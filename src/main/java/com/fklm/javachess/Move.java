@@ -54,4 +54,6 @@ public class Move {
     public Position getDestiny() {
         return destiny;
     }
+    public int getDestX(){return destiny.getX();}
+    public int getDestY(){return destiny.getY();}
 }

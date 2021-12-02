@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class Space extends Button {
     public Position position;
-    public ArrayList<Position>
     public Piece piece;
 
     public Space (int x, int y){

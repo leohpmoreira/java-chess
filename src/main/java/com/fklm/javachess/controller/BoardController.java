@@ -26,23 +26,22 @@ public class BoardController {
     private GridPane board;
 
     public Space start,destiny;
-    public Player current = Player.WHITE;
+    public static Player current = Player.WHITE;
     public BoardStatus boardStatus;
     public static Space[][] space = new Space[8][8];
 
 
     public void initialize(){
         setBoard();
+        this.boardStatus = new BoardStatus();
     }
 
     public void setBoard() {
         this.start = null;
         this.destiny = null;
-        this.boardStatus = new BoardStatus();
         for(int y=0; y<8; y++){
             for(int x=0; x<8; x++){
                 board.add(createSpace(x,y), x, 7-y);
-                boardStatus.setPieces(space[y][x]);
             }
         }
     }
@@ -113,18 +112,25 @@ public class BoardController {
     }
 
     public void selectedSpace(Space space){
-        if(start == null && space.getPiece() != null){
-             start = space;
-             start.getStyleClass().add("greenFocusHighlight");
+        if(start == null && space.getPiece() != null && space.getPiece().getColor().equals(current)){
+                start = space;
         }else if(destiny == null && space != start && start != null){
-            if((space.getPiece() != null && !space.getPiece().getColor().equals(current))
+            if((space.getPiece() != null && space.getPiece().getColor().equals(current.opponent()))
                     || space.getPiece() == null){
                 destiny = space;
-                if(start.getPiece().isLegalMove(new Move(start.getPosition(),destiny.getPosition())))
+                Move move = new Move(start.getPosition(),destiny.getPosition());
+                if(start.getPiece().isLegalMove(move) && boardStatus.isObstructe(move,start.getPiece())) {
+                    boardStatus.updateStatus(move,current);
                     doMoviment(start, destiny);
+                    changePlayer();
+                }
                 start = null;
                 destiny = null;
             }
         }
+    }
+
+    public void changePlayer(){
+        current = current.opponent();
     }
 }
