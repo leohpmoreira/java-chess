@@ -8,9 +8,11 @@ import javafx.scene.image.Image;
 
 public class Pawn extends Piece{
     private String imagePath;
+    private int firstMove;
 
     public Pawn(Player color,int type) {
         super(color,type);
+        this.firstMove = 0;
         putImage(color);
     }
 
@@ -25,9 +27,20 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean isLegalMove( Move move) {
-        return true;
+    public boolean isLegalMove(Move move) {
+        if(firstMove == 0){
+            if(move.vertical() && (move.getDistance() == 2 || move.getDistance() == 1)) {
+                return true;
+            }
+        }
+        else {
+            if (move.vertical() && move.getDistance() == 1)
+                return true;
+        }
+        return false;
     }
-
+    public void setFirstMove(int i){
+        this.firstMove = i;
+    }
 
 }

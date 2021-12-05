@@ -3,21 +3,10 @@ package com.fklm.javachess.controller;
 
 import com.fklm.javachess.*;
 import com.fklm.javachess.model.chessmen.*;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class BoardController {
     @FXML
@@ -32,19 +21,21 @@ public class BoardController {
 
 
     public void initialize(){
-        setBoard();
-        this.boardStatus = new BoardStatus();
-    }
-
-    public void setBoard() {
         this.start = null;
         this.destiny = null;
+        for(int y=0; y<8; y++) {
+            for (int x = 0; x < 8; x++) {
+                board.add(createSpace(x, y), x, 7 - y);
+            }
+        }
+        this.boardStatus = new BoardStatus();
         for(int y=0; y<8; y++){
             for(int x=0; x<8; x++){
-                board.add(createSpace(x,y), x, 7-y);
+                space[y][x].addWay(space,boardStatus);
             }
         }
     }
+
 
     public Space createSpace(int x,int y){
         ImageView pieceImage;
@@ -105,28 +96,64 @@ public class BoardController {
     void doMoviment (Space start,Space destiny){
         if(start != null) {
             destiny.setPiece(start.getPiece());
+            destiny.addWay(space,boardStatus);
             destiny.setGraphic(start.getGraphic());
             start.setGraphic(null);
-            start.setPiece(null);
+            start.clear();
         }
     }
 
-    public void selectedSpace(Space space){
-        if(start == null && space.getPiece() != null && space.getPiece().getColor().equals(current)){
-                start = space;
-        }else if(destiny == null && space != start && start != null){
-            if((space.getPiece() != null && space.getPiece().getColor().equals(current.opponent()))
-                    || space.getPiece() == null){
-                destiny = space;
+    public void selectedSpace(Space selected){
+        if(start == null && selected.getPiece() != null && selected.getPiece().getColor().equals(current)){
+            start = selected;
+            start.addWay(space,boardStatus);
+            highLight(start);
+        }else if(destiny == null && selected != start && start != null){
+            turnoffHighlight(start);
+            if(selected.getPiece() == null ||
+            (selected.getPiece() != null && selected.getPiece().getColor().equals(current.opponent()))){
+                destiny = selected;
                 Move move = new Move(start.getPosition(),destiny.getPosition());
-                if(start.getPiece().isLegalMove(move) && boardStatus.isObstructe(move,start.getPiece())) {
-                    boardStatus.updateStatus(move,current);
+                turnoffHighlight(start);
+                if(start.getPiece().isLegalMove(move) && boardStatus.isntObstructe(move,start.getPiece())) {
                     doMoviment(start, destiny);
+                    boardStatus.updateStatus(move,current);
                     changePlayer();
                 }
                 start = null;
                 destiny = null;
             }
+            else{
+                turnoffHighlight(start);
+                start = selected;
+                highLight(start);
+            }
+        }
+    }
+
+    void highLight(Space selected){
+        String odd = new String("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
+        String even = new String("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
+        for(Space space: selected.possPositions){
+            Position pos = space.getPosition();
+            if(space.getPiece()== null || space.getPiece().getColor().equals(selected.getPiece().getColor().opponent())){
+                if((pos.getX()+ pos.getY())%2 == 1)
+                    space.setStyle(odd);
+                else
+                    space.setStyle(even);
+            }
+        }
+    }
+
+    void turnoffHighlight(Space start){
+        String odd = new String("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0");
+        String even = new String("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0");
+        for(Space space: start.possPositions){
+            Position pos = space.getPosition();
+            if((pos.getX()+ pos.getY())%2 == 1)
+                space.setStyle(odd);
+            else
+                space.setStyle(even);
         }
     }
 

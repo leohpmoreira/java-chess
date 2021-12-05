@@ -8,9 +8,11 @@ import javafx.scene.image.Image;
 
 public class Rook extends Piece{
     private String imagePath;
+    private int firstMove;
 
     public Rook(Player color, int type) {
         super(color,type);
+        this.firstMove =0;
         putImage(color);
     }
 

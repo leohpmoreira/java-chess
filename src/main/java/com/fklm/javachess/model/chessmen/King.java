@@ -4,8 +4,11 @@ import com.fklm.javachess.*;
 import javafx.scene.image.Image;
 
 public class King extends Piece{
+    private int firstMove;
+
     public King(Player color, int type) {
         super(color, type);
+        this.firstMove =0;
         putImage(color);
     }
 
@@ -29,4 +32,7 @@ public class King extends Piece{
         setImage(image);
     }
 
+    public void setFirstMove(int i){
+        this.firstMove = i;
+    }
 }
