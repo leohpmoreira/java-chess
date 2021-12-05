@@ -18,12 +18,6 @@ public class Space extends Button {
         this.position = new Position(x,y);
     }
 
-    public boolean isOccupied() {
-        if (this.piece != null)
-            return true;
-        return false;
-    }
-
     public void addWay(Space[][] board,BoardStatus boardStatus){
         if(piece != null){
             for(int i=0; i<8; i++){
@@ -44,7 +38,6 @@ public class Space extends Button {
     }
 
     public void clear(){
-        this.piece = null;
         this.possPositions.clear();
     }
 
@@ -58,5 +51,13 @@ public class Space extends Button {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public ArrayList<Space> getPossPositions(){
+        return possPositions;
+    }
+
+    public void removePossPositions(Space space){
+        possPositions.remove(space);
     }
 }

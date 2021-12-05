@@ -5,4 +5,8 @@ public enum Player {
     public Player opponent(){
         return this == WHITE? BLACK : WHITE;
     }
+
+    public String toString(){
+        return (this == WHITE? "Branco" : "Preto");
+    }
 }

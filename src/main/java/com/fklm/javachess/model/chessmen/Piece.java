@@ -5,11 +5,13 @@ import javafx.scene.image.Image;
 
 public abstract class Piece {
     private final Player color;
+    public int firstMove;
     public Image image;
     private int type;
 
     public Piece(Player color,int type) {
         this.color = color;
+        this.firstMove = 0;
         this.type = type;
     }
 
@@ -51,5 +53,9 @@ public abstract class Piece {
 
     public int getType() {
         return type;
+    }
+
+    public void setFirstMove(int i){
+        this.firstMove = i;
     }
 }

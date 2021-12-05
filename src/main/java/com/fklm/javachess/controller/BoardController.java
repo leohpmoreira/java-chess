@@ -94,13 +94,13 @@ public class BoardController {
     }
 
     void doMoviment (Space start,Space destiny){
-        if(start != null) {
-            destiny.setPiece(start.getPiece());
-            destiny.addWay(space,boardStatus);
-            destiny.setGraphic(start.getGraphic());
-            start.setGraphic(null);
-            start.clear();
-        }
+        start.getPiece().setFirstMove(1);
+        destiny.setPiece(start.getPiece());
+        destiny.addWay(space,boardStatus);
+        destiny.setGraphic(start.getGraphic());
+        start.setGraphic(null);
+        start.setPiece(null);
+        start.clear();
     }
 
     public void selectedSpace(Space selected){

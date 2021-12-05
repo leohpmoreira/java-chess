@@ -55,52 +55,80 @@ public class BoardStatus {
             blackPosition.remove(start);
             blackPosition.add(destiny);
         }
+        updatePossPieces();
+        kingsPos(player);
         if(isInCheck(player)) {
-            //if (isMate(player)){
-
+            if (isMate(player,destiny)){
                 String winner = new String(player == Player.WHITE? "Branco":"Preto");
                 System.out.println(winner + " Ganhou");
-            //}
+            }
         }
     }
 
-    /*public boolean isMate(Player player){
-        ArrayList<Position> possiblePlMov = new ArrayList<Position>();
-        ArrayList<Position> possibleKingMove = new ArrayList<Position>();
-        Space king = (player.opponent() == Player.WHITE? wKing : bKing);
-        int startX = king.getPosition().getX(),startY = king.getPosition().getY();
-        for(int i= startY-1; i<=startY+1; i++){
-            for(int j=startX-1; i<=startX+1; j++){
-                Position destiny = new Position(j,i);
-                Move move = new Move(new Position(startX,startY),destiny);
-                if(king.getPiece().isLegalMove(move))
-                    possibleKingMove.add(destiny);
+    void updatePossPieces(){
+        for(int y=0; y<8; y++){
+            for(int x=0; x<8; x++){
+                space[y][x].clear();
+                space[y][x].addWay(space,this);
             }
         }
-        for(Space space: (player ==Player.WHITE? ))
-    }*/
+    }
+
+    public void kingsPos(Player player){
+        Space king = (player.opponent() == Player.WHITE? wKing : bKing);
+        for(Space space: (player ==Player.WHITE? whitePosition : blackPosition)){
+            for(Space poss : space.getPossPositions()){
+                if(king.getPossPositions().contains(poss))
+                    king.removePossPositions(poss);
+            }
+        }
+    }
+
+    private boolean isMate(Player player,Space checking){
+        Space king = (player == Player.WHITE? bKing : wKing);
+        ArrayList<Space> enemyPoss = (player == Player.WHITE? blackPosition : whitePosition);
+        ArrayList<Space> checkPath = new ArrayList<>();
+        Move move = new Move(checking.getPosition(),king.getPosition());
+        if(king.getPossPositions().isEmpty()){
+            int dirX = move.getXDif(),dirY= move.getYDif();
+            int x,y;
+            x = move.getStartX();
+            y = move.getStartY();
+            if(move.getXDif() != 0) {
+                dirX = (Math.abs(move.getXDif())) / move.getXDif();
+                x+= dirX;
+            }
+            if(move.getYDif() != 0){
+                dirY = (Math.abs(move.getYDif()))/move.getYDif();
+                y += dirY;
+            }
+            Position test = new Position(x,y);
+            while (!test.equals(move.getDestiny()) && x < 8 && y < 8){
+                checkPath.add(space[y][x]);
+                test.setX(x += dirX);
+                test.setY(y += dirY);
+            }
+            for(Space test1 : checkPath){
+                for (Space test2 : enemyPoss){
+                    if(test2.getPossPositions().contains(test1)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     public boolean isInCheck(Player player){
-        if(player.opponent().equals(Player.WHITE)){
-            for(Space space: blackPosition){
-                Move move = new Move(space.getPosition(),wKing.getPosition());
-                if(space.getPiece().isLegalMove(move) && isntObstructe(move,space.getPiece())) {
-                    System.out.println("CHECK NO REI BRANCO");
-                    return true;
-                }
+        for(Space space: (player.opponent() == Player.WHITE? blackPosition: whitePosition)){
+            Move move = new Move(space.getPosition(),(player.opponent() ==Player.WHITE? wKing : bKing).getPosition());
+            if(space.getPiece().isLegalMove(move) && isntObstructe(move,space.getPiece())) {
+                System.out.println("CHECK NO REI " + player.opponent().toString().toUpperCase());
+                return true;
             }
-            return false;
         }
-        else{
-            for(Space space: whitePosition){
-                Move move = new Move(space.getPosition(),bKing.getPosition());
-                if(space.getPiece().isLegalMove(move) && isntObstructe(move,space.getPiece())) {
-                    System.out.println("CHECK NO REI PRETO");
-                    return true;
-                }
-            }
-            return false;
-        }
+        return false;
     }
 
     public boolean isntObstructe(Move move, Piece piece){
@@ -112,19 +140,25 @@ public class BoardStatus {
         y = move.getStartY();
         if(move.getXDif() != 0) {
             dirX = (Math.abs(move.getXDif())) / move.getXDif();
-            x += dirX;
+            x+= dirX;
         }
         if(move.getYDif() != 0){
             dirY = (Math.abs(move.getYDif()))/move.getYDif();
             y += dirY;
         }
         Position test = new Position(x,y);
-        while(!test.equals(move.getDestiny()) && x<8 && y<8){
-            if(space[y][x].getPiece() != null)
-                return false;
-            test.setX(x += dirX);
-            test.setY(y += dirY);
+        if(space[move.getDestY()][move.getDestX()].getPiece()== null ||
+            !space[move.getDestY()][move.getDestX()].getPiece().getColor().equals(piece.getColor())) {
+            while (!test.equals(move.getDestiny()) && x < 8 && y < 8) {
+                if (space[y][x].getPiece() != null)
+                    return false;
+                test.setX(x += dirX);
+                test.setY(y += dirY);
+            }
+            return true;
         }
-        return true;
+        else{
+            return false;
+        }
     }
 }
