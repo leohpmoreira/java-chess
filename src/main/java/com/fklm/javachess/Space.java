@@ -23,7 +23,9 @@ public class Space extends Button {
             for(int i=0; i<8; i++){
                 for(int j=0; j<8; j++){
                     Move move = new Move(this.position,board[i][j].getPosition());
-                    if(piece.isLegalMove(move) && boardStatus.isntObstructe(move,piece)) {
+                    if(piece.isLegalMove(move,boardStatus) && boardStatus.isntObstructe(move,piece) &&
+                    (boardStatus.space[move.getDestY()][move.getDestX()].getPiece() == null ||
+                    !boardStatus.space[move.getDestY()][move.getDestX()].getPiece().getColor().equals(piece.getColor()))) {
                         possPositions.add(board[i][j]);
                     }
                 }

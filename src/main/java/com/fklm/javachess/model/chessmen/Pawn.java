@@ -25,25 +25,34 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean isLegalMove(Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         if(this.getColor().equals(Player.WHITE)){
             if(firstMove == 0){
-                if(move.vertical() && (move.getYDif()<=2 && move.getYDif()>0))
+                if(move.vertical() && (move.getYDif()<=2 && move.getYDif()>0)&&
+                    boardStatus.space[move.getDestY()][move.getDestX()].getPiece() == null)
                     return true;
             }
-            else if (move.vertical() && move.getYDif() == 1)
+            else if (move.vertical() && move.getYDif() == 1 &&
+                    boardStatus.space[move.getDestY()][move.getDestX()].getPiece() == null)
                     return true;
-            return false;
+            else return move.diagonal() && move.getYDif()==1 &&
+                boardStatus.space[move.getDestY()][move.getDestX()].getPiece() != null &&
+                boardStatus.space[move.getDestY()][move.getDestX()].getPiece().getColor().equals(Player.BLACK);
         }
         else{
             if(firstMove == 0){
-                if(move.vertical() && (move.getYDif()>=-2 && move.getYDif()<0))
+                if(move.vertical() && (move.getYDif()>=-2 && move.getYDif()<0) &&
+                    boardStatus.space[move.getDestY()][move.getDestX()].getPiece() == null)
                     return true;
             }
-            else if (move.vertical() && move.getYDif() == -1)
+            else if (move.vertical() && move.getYDif() == -1 &&
+                    boardStatus.space[move.getDestY()][move.getDestX()].getPiece() == null)
                 return true;
-            return false;
+            else return move.diagonal() && move.getYDif()== -1 &&
+                boardStatus.space[move.getDestY()][move.getDestX()].getPiece() != null &&
+                boardStatus.space[move.getDestY()][move.getDestX()].getPiece().getColor().equals(Player.WHITE);
         }
+        return false;
     }
 
 }

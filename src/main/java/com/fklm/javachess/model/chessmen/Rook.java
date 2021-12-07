@@ -25,7 +25,7 @@ public class Rook extends Piece{
     }
 
     @Override
-    public boolean isLegalMove(Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         if(move.vertical() || move.horizontal())
             return true;
         else

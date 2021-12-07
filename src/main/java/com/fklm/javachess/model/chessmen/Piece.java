@@ -48,7 +48,7 @@ public abstract class Piece {
         this.image = image;
     };
 
-    public abstract boolean isLegalMove(Move move);
+    public abstract boolean isLegalMove(Move move,BoardStatus boardStatus);
     public abstract void putImage(Player color);
 
     public int getType() {

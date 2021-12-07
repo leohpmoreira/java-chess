@@ -15,7 +15,7 @@ public class Queen extends Piece{
     }
 
     @Override
-    public boolean isLegalMove( Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         if(move.diagonal() || move.horizontal() || move.vertical())
             return true;
         else

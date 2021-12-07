@@ -11,11 +11,11 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean isLegalMove( Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         if(move.getDistance() == 1)
             return true;
         else
-            return false;
+        return false;
     }
 
 

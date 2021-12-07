@@ -15,7 +15,7 @@ public class Knight extends Piece{
     }
 
     @Override
-    public boolean isLegalMove( Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         return move.lMove();
     }
 

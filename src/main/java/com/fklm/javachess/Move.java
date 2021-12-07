@@ -33,6 +33,12 @@ public class Move {
         return Math.max(xDif,yDif);
     }
 
+    public String translate(){
+        char letter;
+        letter = (char) (this.getDestX() + 65);
+        return (letter + "-" + this.getDestY()+1);
+    }
+
     public int getXDif(){
         return destiny.getX() - start.getX();
     }

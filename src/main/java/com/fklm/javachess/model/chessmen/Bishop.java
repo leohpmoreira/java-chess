@@ -22,7 +22,7 @@ public class Bishop extends Piece{
         setImage(image);
     }
     @Override
-    public boolean isLegalMove(Move move) {
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
         return move.diagonal();
     }
 

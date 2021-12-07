@@ -3,20 +3,30 @@ package com.fklm.javachess.controller;
 
 import com.fklm.javachess.*;
 import com.fklm.javachess.model.chessmen.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardController {
     @FXML
-    private StackPane place;
-    @FXML
     private GridPane board;
+
 
     public Space start,destiny;
     public static Player current = Player.WHITE;
-    public BoardStatus boardStatus;
+    public static BoardStatus boardStatus;
     public static Space[][] space = new Space[8][8];
 
 
@@ -55,7 +65,11 @@ public class BoardController {
             space[y][x].setGraphic(pieceImage);
         }
         space[y][x].setOnAction(e->{
-            selectedSpace((Space) e.getSource());
+            try {
+                selectedSpace((Space) e.getSource());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         return space [y][x];
     }
@@ -93,20 +107,18 @@ public class BoardController {
         return p;
     }
 
-    void doMoviment (Space start,Space destiny){
+    void doMovement (Space start,Space destiny){
         start.getPiece().setFirstMove(1);
         destiny.setPiece(start.getPiece());
-        destiny.addWay(space,boardStatus);
         destiny.setGraphic(start.getGraphic());
         start.setGraphic(null);
         start.setPiece(null);
         start.clear();
     }
 
-    public void selectedSpace(Space selected){
+    public void selectedSpace(Space selected) throws IOException {
         if(start == null && selected.getPiece() != null && selected.getPiece().getColor().equals(current)){
             start = selected;
-            start.addWay(space,boardStatus);
             highLight(start);
         }else if(destiny == null && selected != start && start != null){
             turnoffHighlight(start);
@@ -115,8 +127,8 @@ public class BoardController {
                 destiny = selected;
                 Move move = new Move(start.getPosition(),destiny.getPosition());
                 turnoffHighlight(start);
-                if(start.getPiece().isLegalMove(move) && boardStatus.isntObstructe(move,start.getPiece())) {
-                    doMoviment(start, destiny);
+                if(start.getPossPositions().contains(destiny)) {
+                    doMovement(start, destiny);
                     boardStatus.updateStatus(move,current);
                     changePlayer();
                 }
@@ -136,12 +148,12 @@ public class BoardController {
         String even = new String("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
         for(Space space: selected.possPositions){
             Position pos = space.getPosition();
-            if(space.getPiece()== null || space.getPiece().getColor().equals(selected.getPiece().getColor().opponent())){
+            //if(space.getPiece()== null || space.getPiece().getColor().equals(selected.getPiece().getColor().opponent())){
                 if((pos.getX()+ pos.getY())%2 == 1)
                     space.setStyle(odd);
                 else
                     space.setStyle(even);
-            }
+            //}
         }
     }
 
@@ -156,6 +168,27 @@ public class BoardController {
                 space.setStyle(even);
         }
     }
+
+
+
+    @FXML
+    void draw(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(ChessApplication.class.getResource("draw-view.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    @FXML
+    void surrender() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(ChessApplication.class.getResource("surrender-view.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
 
     public void changePlayer(){
         current = current.opponent();
