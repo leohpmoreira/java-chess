@@ -1,7 +1,7 @@
 package com.fklm.javachess.model.chessmen;
 
 import com.fklm.javachess.ChessApplication;
-import com.fklm.javachess.GameState;
+import com.fklm.javachess.BoardStatus;
 import com.fklm.javachess.Move;
 import com.fklm.javachess.Player;
 import javafx.scene.image.Image;
@@ -25,13 +25,11 @@ public class Rook extends Piece{
     }
 
     @Override
-    public boolean isLegalMove(GameState gameState, Move move) {
-        return false;
-    }
-
-    @Override
-    public void makeMove(GameState gameState, Move move) {
-
+    public boolean isLegalMove(Move move,BoardStatus boardStatus) {
+        if(move.vertical() || move.horizontal())
+            return true;
+        else
+            return false;
     }
 
 }

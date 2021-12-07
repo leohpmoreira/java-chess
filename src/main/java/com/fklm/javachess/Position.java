@@ -19,6 +19,10 @@ public class Position {
             return c - 65;
     }
 
+    public boolean equals(Position position){
+        return (position.getY() == this.y) && (position.getX() == this.x);
+    }
+
     public int getX() {return x;}
 
     public void setX(int x) {this.x = x;}

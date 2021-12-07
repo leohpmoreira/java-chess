@@ -2,17 +2,16 @@ package com.fklm.javachess.model.chessmen;
 
 import com.fklm.javachess.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.io.IOException;
 
 public abstract class Piece {
     private final Player color;
+    public int firstMove;
     public Image image;
     private int type;
 
     public Piece(Player color,int type) {
         this.color = color;
+        this.firstMove = 0;
         this.type = type;
     }
 
@@ -49,11 +48,14 @@ public abstract class Piece {
         this.image = image;
     };
 
-    public abstract boolean isLegalMove(GameState gameState, Move move);
-    public abstract void makeMove(GameState gameState, Move move);
+    public abstract boolean isLegalMove(Move move,BoardStatus boardStatus);
     public abstract void putImage(Player color);
 
     public int getType() {
         return type;
+    }
+
+    public void setFirstMove(int i){
+        this.firstMove = i;
     }
 }
