@@ -15,14 +15,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController {
     @FXML
     private GridPane board;
-
 
     public Space start,destiny;
     public static Player current = Player.WHITE;
@@ -128,6 +127,7 @@ public class BoardController {
                 Move move = new Move(start.getPosition(),destiny.getPosition());
                 turnoffHighlight(start);
                 if(start.getPossPositions().contains(destiny)) {
+                    write(start,destiny,ChessApplication.game);
                     doMovement(start, destiny);
                     boardStatus.updateStatus(move,current);
                     changePlayer();
@@ -187,6 +187,18 @@ public class BoardController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.showAndWait();
+    }
+
+    void write(Space start,Space destiny,File game){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(game,true));
+            String move = new String(start.strPos() +";"+destiny.strPos());
+            writer.write(move);
+            writer.newLine();
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 
