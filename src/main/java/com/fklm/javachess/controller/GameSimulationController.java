@@ -25,7 +25,9 @@ public class GameSimulationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             this.reader = new BufferedReader(new FileReader("game.txt"));
-            String s = reader.readLine();
+            for (int i = 0; i < 7; i++) {
+                String s = reader.readLine();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,10 +47,10 @@ public class GameSimulationController implements Initializable {
         space [y][x].setPrefWidth(62.5);
         space [y][x].setPiece(setPiece(x,y));
         if((x+y)%2 == 1) {
-            space [y][x].setStyle("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0");
+            space [y][x].setStyle("-fx-background-color: #573a2e; -fx-background-radius: 0;-fx-padding: 0");
         }
         else
-            space [y][x].setStyle("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0");
+            space [y][x].setStyle("-fx-background-color: #8a785d; -fx-background-radius: 0;-fx-padding: 0");
         if(space[y][x].getPiece() != null){
             pieceImage = new ImageView(space[y][x].getPiece().getImage());
             pieceImage.setFitHeight(50);
@@ -101,7 +103,6 @@ public class GameSimulationController implements Initializable {
             String strDestiny = move[1];
             start = translate(strStart);
             destiny = translate(strDestiny);
-
             doMovement(start,destiny);
             if(move.length == 3){
                 pawnPromotion(move[1],move[2]);

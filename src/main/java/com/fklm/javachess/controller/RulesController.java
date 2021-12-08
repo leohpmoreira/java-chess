@@ -19,7 +19,7 @@ public class RulesController {
     protected void onRulesButtonClick(ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(ChessApplication.class.getResource("board.fxml"));
+            FXMLLoader loader = new FXMLLoader(ChessApplication.class.getResource("board-view.fxml"));
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
             stage.show();

@@ -15,6 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class BoardController {
     @FXML
@@ -27,13 +30,11 @@ public class BoardController {
     public static Player current = Player.WHITE;
     public static BoardStatus boardStatus;
     public static Space[][] space = new Space[8][8];
-    public boolean rewrite;
 
 
     public void initialize() {
         this.start = null;
         this.destiny = null;
-        rewrite = false;
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 board.add(createSpace(x, y), x, 7 - y);
@@ -50,6 +51,20 @@ public class BoardController {
         }else {
             currentLabel.setText("Vez do jogador " + ChessApplication.player1);
         }
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,false));
+            LocalDateTime localDateTime = LocalDateTime.now();
+            writer.write("[Event \"Campeonato PUC Campinas\"]\n" +
+                            "[Site \"Campinas (BR)\"]\n" +
+                            "[Date \"" + localDateTime.toString() + "\"]\n" +
+                            "[Round \"?\"]\n" +
+                            "[White \"" + ChessApplication.player1 + "\"]\n" +
+                            "[Black \"" + ChessApplication.player2 + "\"]\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -198,12 +213,11 @@ public class BoardController {
 
     void writeMove(Space start,Space destiny){
         try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,rewrite));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,true));
             String move = new String(start.strPos() +";"+destiny.strPos());
             writer.newLine();
             writer.write(move);
             writer.close();
-            rewrite = true;
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -241,7 +255,6 @@ public class BoardController {
             String move = new String(";"+ destiny.getPiece().getType());
             writer.write(move);
             writer.close();
-            rewrite = true;
         }catch (IOException e){
             e.printStackTrace();
         }
