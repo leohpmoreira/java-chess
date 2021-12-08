@@ -3,6 +3,7 @@ package com.fklm.javachess;
 import com.fklm.javachess.controller.BoardController;
 import com.fklm.javachess.model.chessmen.King;
 import com.fklm.javachess.model.chessmen.Piece;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -77,26 +78,45 @@ public class BoardStatus {
             }
         }
         updatePossPieces();
-        if(isInCheck(player)) {
+        if(isInCheck(player) ||
+            (player.opponent() == Player.WHITE? wKing : bKing).getPiece().getType() != 5){
             if(player == Player.WHITE)
                 checkWhite++;
             else
                 checkBlack++;
-            if (isMate(player,destiny)){
+            if (isMate(player,destiny) ||
+                (player.opponent() == Player.WHITE? wKing : bKing).getPiece().getType() != 5){
                 String winner = (player == Player.WHITE? "Branco":"Preto");
                 disableSpace();
-                //BoardController.writer.close();
+                FXMLLoader fxmlLoader = new FXMLLoader(ChessApplication.class.getResource("victory-view.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
                 System.out.println(winner + " Ganhou");
             }
         }
-        else if(pat(player)){
+        else if(checkWhite == 5 || checkBlack == 5 || insufficientMaterial() || pat(player)){
             disableSpace();
+            FXMLLoader fxmlLoader = new FXMLLoader(ChessApplication.class.getResource("draw-message.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
             System.out.println("Empate");
         }
-        if(checkWhite == 5 || checkBlack == 5){
-            disableSpace();
-            System.out.println("Empate");
-        }
+    }
+
+    boolean insufficientMaterial(){
+        ArrayList<Space> testWhite = new ArrayList<>();
+        ArrayList<Space> testBlack = new ArrayList<>();
+        for(Space space: whitePosition)
+            testWhite.add(space);
+        for(Space space: blackPosition)
+            testBlack.add(space);
+        testWhite.remove(wKing);
+        testBlack.remove(bKing);
+        return testBlack.isEmpty() && testWhite.isEmpty();
     }
 
     boolean pat(Player player){
@@ -247,7 +267,7 @@ public class BoardStatus {
             y += dirY;
         }
         Position test = new Position(x,y);
-        while (!test.equals(move.getDestiny()) && x < 8 && y < 8) {
+        while (!test.equals(move.getDestiny()) && 0<y && 0<x && x < 8 && y < 8) {
             if (space[y][x].getPiece() != null)
                 return false;
             test.setX(x += dirX);

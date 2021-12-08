@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="217.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fklm.javachess.controller.MessageController">
+    <children>
+        <Label fx:id="drawGame" layoutY="6.0" prefHeight="217.0" prefWidth="412.0" textAlignment="JUSTIFY">
+            <font>
+                <Font size="45.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

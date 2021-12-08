@@ -5,7 +5,6 @@ import com.fklm.javachess.ChessApplication;
 import com.fklm.javachess.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -26,9 +25,16 @@ public class MessageController implements Initializable {
     @FXML
     private Label surrenderMessage = new Label();
 
+    @FXML
+    private Label winnerMessage = new Label();
+
+    @FXML
+    private Label drawGame = new Label();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        winnerMessage.setText((player == Player.WHITE? player1 : player2) + " ganhou");
+        drawGame.setText("EMPATE");
         drawMessage.setText("Deseja aceitar o empate "+(player == Player.WHITE? player2 : player1) +"?");
         surrenderMessage.setText("Deseja desistir " + (player == Player.WHITE? player1 : player2) + "?");
     }

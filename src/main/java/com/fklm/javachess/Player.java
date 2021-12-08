@@ -6,7 +6,4 @@ public enum Player {
         return this == WHITE? BLACK : WHITE;
     }
 
-    public String toString(){
-        return (this == WHITE? "Branco" : "Preto");
-    }
 }
