@@ -7,6 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -16,6 +19,9 @@ import java.io.*;
 public class BoardController {
     @FXML
     private GridPane board;
+
+    @FXML
+    Label currentLabel = new Label();
 
     public Space start,destiny;
     public static Player current = Player.WHITE;
@@ -28,16 +34,21 @@ public class BoardController {
         this.start = null;
         this.destiny = null;
         rewrite = false;
-        for(int y=0; y<8; y++) {
+        for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 board.add(createSpace(x, y), x, 7 - y);
             }
         }
         this.boardStatus = new BoardStatus();
-        for(int y=0; y<8; y++){
-            for(int x=0; x<8; x++){
-                space[y][x].addWay(space,boardStatus);
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                space[y][x].addWay(space, boardStatus);
             }
+        }
+        if (ChessApplication.player1.isEmpty()){
+            currentLabel.setText("Vez do jogador " + ChessApplication.player1);
+        }else {
+            currentLabel.setText("Vez do jogador " + ChessApplication.player1);
         }
     }
 
@@ -49,10 +60,10 @@ public class BoardController {
         space [y][x].setPrefWidth(62.5);
         space [y][x].setPiece(setPiece(x,y));
         if((x+y)%2 == 1) {
-            space [y][x].setStyle("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0");
+            space [y][x].setStyle("-fx-background-color: #573a2e; -fx-background-radius: 0;-fx-padding: 0");
         }
         else
-            space [y][x].setStyle("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0");
+            space [y][x].setStyle("-fx-background-color: #8a785d; -fx-background-radius: 0;-fx-padding: 0");
         if(space[y][x].getPiece() != null){
             pieceImage = new ImageView(space[y][x].getPiece().getImage());
             pieceImage.setFitHeight(50);
@@ -142,8 +153,8 @@ public class BoardController {
     }
 
     void highLight(Space selected){
-        String odd = new String("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
-        String even = new String("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
+        String odd = new String("-fx-background-color: #573a2e; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
+        String even = new String("-fx-background-color: #8a785d; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
         for(Space space: selected.possPositions){
             Position pos = space.getPosition();
                 if((pos.getX()+ pos.getY())%2 == 1)
@@ -154,8 +165,8 @@ public class BoardController {
     }
 
     void turnoffHighlight(Space start){
-        String odd = new String("-fx-background-color: black; -fx-background-radius: 0;-fx-padding: 0");
-        String even = new String("-fx-background-color: white; -fx-background-radius: 0;-fx-padding: 0");
+        String odd = new String("-fx-background-color: #573a2e; -fx-background-radius: 0;-fx-padding: 0");
+        String even = new String("-fx-background-color: #8a785d; -fx-background-radius: 0;-fx-padding: 0");
         for(Space space: start.possPositions){
             Position pos = space.getPosition();
             if((pos.getX()+ pos.getY())%2 == 1)
@@ -239,5 +250,18 @@ public class BoardController {
 
     public void changePlayer(){
         current = current.opponent();
+        if (current.equals(Player.WHITE)){
+            if (ChessApplication.player1.isEmpty()){
+                currentLabel.setText("Vez do jogador " + current.toString());
+            } else{
+                currentLabel.setText("Vez do jogador " + ChessApplication.player1);
+            }
+        }else {
+            if (ChessApplication.player2.isEmpty()){
+                currentLabel.setText("Vez do jogador " + current.toString());
+            } else{
+                currentLabel.setText("Vez do jogador " + ChessApplication.player2);
+            }
+        }
     }
 }

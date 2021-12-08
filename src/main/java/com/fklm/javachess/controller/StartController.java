@@ -29,7 +29,7 @@ public class StartController {
         System.out.println("Player 1: " + ChessApplication.player1+ " Player 2: " + ChessApplication.player2);
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(ChessApplication.class.getResource("board.fxml"));
+            FXMLLoader loader = new FXMLLoader(ChessApplication.class.getResource("rules-view.fxml"));
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
             stage.show();
