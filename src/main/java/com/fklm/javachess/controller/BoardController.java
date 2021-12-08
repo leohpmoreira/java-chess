@@ -6,19 +6,15 @@ import com.fklm.javachess.model.chessmen.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BoardController {
     @FXML
@@ -31,11 +27,13 @@ public class BoardController {
     public static Player current = Player.WHITE;
     public static BoardStatus boardStatus;
     public static Space[][] space = new Space[8][8];
+    public boolean rewrite;
 
 
     public void initialize() {
         this.start = null;
         this.destiny = null;
+        rewrite = false;
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 board.add(createSpace(x, y), x, 7 - y);
@@ -136,11 +134,13 @@ public class BoardController {
                 Move move = new Move(start.getPosition(),destiny.getPosition());
                 turnoffHighlight(start);
                 if(start.getPossPositions().contains(destiny)) {
-                    write(start,destiny,ChessApplication.game);
+                    writeMove(start,destiny);
                     doMovement(start, destiny);
                     boardStatus.updateStatus(move,current);
                     changePlayer();
                 }
+                if(destiny.getPiece() != null && destiny.getPiece().getType() == 0)
+                    pawnPromotion(destiny);
                 start = null;
                 destiny = null;
             }
@@ -157,12 +157,10 @@ public class BoardController {
         String even = new String("-fx-background-color: #8a785d; -fx-background-radius: 0;-fx-padding: 0;-fx-border-width: 3;-fx-border-color: limegreen;");
         for(Space space: selected.possPositions){
             Position pos = space.getPosition();
-            //if(space.getPiece()== null || space.getPiece().getColor().equals(selected.getPiece().getColor().opponent())){
                 if((pos.getX()+ pos.getY())%2 == 1)
                     space.setStyle(odd);
                 else
                     space.setStyle(even);
-            //}
         }
     }
 
@@ -198,13 +196,52 @@ public class BoardController {
         stage.showAndWait();
     }
 
-    void write(Space start,Space destiny,File game){
+    void writeMove(Space start,Space destiny){
         try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter(game,true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,rewrite));
             String move = new String(start.strPos() +";"+destiny.strPos());
-            writer.write(move);
             writer.newLine();
+            writer.write(move);
             writer.close();
+            rewrite = true;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    void pawnPromotion(Space pawn) throws IOException {
+        if(pawn.getPiece().getColor().equals(Player.WHITE)){
+            if(pawn.getPosition().getY() == 7) {
+                pawn.setPiece(PawnPromotionController.getPiece());
+                putImage(pawn);
+                pawn.addWay(space,boardStatus);
+                writePromotion(pawn);
+            }
+        }
+        else{
+            if(pawn.getPosition().getY() == 0) {
+                pawn.setPiece(PawnPromotionController.getPiece());
+                putImage(pawn);
+                pawn.addWay(space,boardStatus);
+                writePromotion(pawn);
+            }
+        }
+    }
+
+    void putImage(Space space){
+        ImageView image = new ImageView(space.getPiece().getImage());
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+        space.setGraphic(image);
+    }
+
+    void writePromotion(Space destiny){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,true));
+            String move = new String(";"+ destiny.getPiece().getType());
+            writer.write(move);
+            writer.close();
+            rewrite = true;
         }catch (IOException e){
             e.printStackTrace();
         }

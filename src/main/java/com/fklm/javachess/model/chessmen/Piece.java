@@ -4,7 +4,7 @@ import com.fklm.javachess.*;
 import javafx.scene.image.Image;
 
 public abstract class Piece {
-    private final Player color;
+    private Player color;
     public int firstMove;
     public Image image;
     private int type;
@@ -47,6 +47,7 @@ public abstract class Piece {
     public void setImage(Image image){
         this.image = image;
     };
+    public void setColor(Player color){this.color = color;}
 
     public abstract boolean isLegalMove(Move move,BoardStatus boardStatus);
     public abstract void putImage(Player color);

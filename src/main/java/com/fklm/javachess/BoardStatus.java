@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 public class BoardStatus {
     private ArrayList<Space> whitePosition;
@@ -86,6 +85,7 @@ public class BoardStatus {
             if (isMate(player,destiny)){
                 String winner = (player == Player.WHITE? "Branco":"Preto");
                 disableSpace();
+                //BoardController.writer.close();
                 System.out.println(winner + " Ganhou");
             }
         }

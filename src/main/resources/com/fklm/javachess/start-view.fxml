@@ -19,7 +19,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="startButton1" alignment="CENTER" layoutX="565.0" layoutY="525.0" mnemonicParsing="false" onAction="#onStartButtonClick" prefHeight="100.0" prefWidth="150.0" text="Simular última partida jogada" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="simulationButton" alignment="CENTER" layoutX="565.0" layoutY="525.0" mnemonicParsing="false" onAction="#simulate" prefHeight="100.0" prefWidth="150.0" text="Simular última partida jogada" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
