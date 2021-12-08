@@ -46,7 +46,7 @@ public class BoardController {
             }
         }
         if (ChessApplication.player1.isEmpty()){
-            currentLabel.setText("Vez do jogador " + ChessApplication.player1);
+            currentLabel.setText("Vez do jogador " + current.toString());
         }else {
             currentLabel.setText("Vez do jogador " + ChessApplication.player1);
         }

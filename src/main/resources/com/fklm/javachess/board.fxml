@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="719.0" prefWidth="1209.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fklm.javachess.controller.BoardController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fklm.javachess.controller.BoardController">
    <children>
-      <StackPane layoutX="355.0" layoutY="85.0" prefHeight="500.0" prefWidth="500.0">
+      <StackPane layoutX="390.0" layoutY="76.0" prefHeight="500.0" prefWidth="500.0">
          <children>
             <GridPane fx:id="board">
               <columnConstraints>
@@ -37,19 +37,19 @@
             </GridPane>
          </children>
       </StackPane>
-      <Label layoutX="355.0" layoutY="585.0" prefHeight="17.0" prefWidth="500.0" text="     A        B         C       D         E        F         G        H">
+      <Label layoutX="390.0" layoutY="576.0" prefHeight="17.0" prefWidth="500.0" text="     A        B         C       D         E        F         G        H">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="327.0" layoutY="85.0" lineSpacing="1.0" prefHeight="500.0" prefWidth="28.0" text="8&#10;&#10;7&#10;&#10;6&#10;&#10;5&#10;&#10;4&#10;&#10;3&#10;&#10;2&#10;&#10;1">
+      <Label layoutX="362.0" layoutY="76.0" lineSpacing="1.0" prefHeight="500.0" prefWidth="28.0" text="8&#10;&#10;7&#10;&#10;6&#10;&#10;5&#10;&#10;4&#10;&#10;3&#10;&#10;2&#10;&#10;1">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Button layoutX="384.0" layoutY="630.0" mnemonicParsing="false" onAction="#surrender" prefHeight="75.0" prefWidth="150.0" text="Desistir" />
-      <Button layoutX="676.0" layoutY="630.0" mnemonicParsing="false" onAction="#draw" prefHeight="75.0" prefWidth="150.0" text="Propor Empate" />
-      <Label fx:id="currentLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="34.0" prefHeight="17.0" prefWidth="1209.0" text="Label" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+      <Button layoutX="419.0" layoutY="621.0" mnemonicParsing="false" onAction="#surrender" prefHeight="75.0" prefWidth="150.0" text="Desistir" />
+      <Button layoutX="711.0" layoutY="621.0" mnemonicParsing="false" onAction="#draw" prefHeight="75.0" prefWidth="150.0" text="Propor Empate" />
+      <Label fx:id="currentLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="25.0" prefHeight="17.0" prefWidth="1209.0" text="Label" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font size="24.0" />
          </font>

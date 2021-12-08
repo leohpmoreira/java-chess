@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="217.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fklm.javachess.controller.PawnPromotionController">
+<AnchorPane prefHeight="375.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fklm.javachess.controller.PawnPromotionController">
    <children>
-      <Button layoutX="14.0" layoutY="96.0" mnemonicParsing="false" onAction="#isQueen">
+      <Label alignment="CENTER" layoutY="20.0" prefHeight="17.0" prefWidth="375.0" text="Escolha uma das peças abaixo" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="75.0" layoutY="75.0" mnemonicParsing="false" onAction="#isQueen" prefHeight="75.0" prefWidth="75.0">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -17,7 +23,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="108.0" layoutY="96.0" mnemonicParsing="false" onAction="#isBishop" prefHeight="55.0" prefWidth="66.0">
+      <Button layoutX="225.0" layoutY="75.0" mnemonicParsing="false" onAction="#isBishop" prefHeight="75.0" prefWidth="75.0">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -26,7 +32,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="236.0" layoutY="96.0" mnemonicParsing="false" onAction="#isKnight" prefHeight="55.0" prefWidth="62.0">
+      <Button layoutX="75.0" layoutY="225.0" mnemonicParsing="false" onAction="#isKnight" prefHeight="75.0" prefWidth="75.0">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -35,7 +41,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="338.0" layoutY="95.0" mnemonicParsing="false" onAction="#isRook" prefHeight="55.0" prefWidth="59.0">
+      <Button layoutX="225.0" layoutY="225.0" mnemonicParsing="false" onAction="#isRook" prefHeight="75.0" prefWidth="75.0">
          <graphic>
             <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                <image>
