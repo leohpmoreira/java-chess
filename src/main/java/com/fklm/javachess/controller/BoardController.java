@@ -123,7 +123,7 @@ public class BoardController {
                 Move move = new Move(start.getPosition(),destiny.getPosition());
                 turnoffHighlight(start);
                 if(start.getPossPositions().contains(destiny)) {
-                    write(start,destiny);
+                    writeMove(start,destiny);
                     doMovement(start, destiny);
                     boardStatus.updateStatus(move,current);
                     changePlayer();
@@ -185,12 +185,12 @@ public class BoardController {
         stage.showAndWait();
     }
 
-    void write(Space start,Space destiny){
+    void writeMove(Space start,Space destiny){
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,rewrite));
             String move = new String(start.strPos() +";"+destiny.strPos());
-            writer.write(move);
             writer.newLine();
+            writer.write(move);
             writer.close();
             rewrite = true;
         }catch (IOException e){
@@ -204,6 +204,7 @@ public class BoardController {
                 pawn.setPiece(PawnPromotionController.getPiece());
                 putImage(pawn);
                 pawn.addWay(space,boardStatus);
+                writePromotion(pawn);
             }
         }
         else{
@@ -211,6 +212,7 @@ public class BoardController {
                 pawn.setPiece(PawnPromotionController.getPiece());
                 putImage(pawn);
                 pawn.addWay(space,boardStatus);
+                writePromotion(pawn);
             }
         }
     }
@@ -220,6 +222,18 @@ public class BoardController {
         image.setFitHeight(50);
         image.setFitWidth(50);
         space.setGraphic(image);
+    }
+
+    void writePromotion(Space destiny){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(ChessApplication.game,true));
+            String move = new String(";"+ destiny.getPiece().getType());
+            writer.write(move);
+            writer.close();
+            rewrite = true;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 

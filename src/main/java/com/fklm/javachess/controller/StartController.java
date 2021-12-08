@@ -38,4 +38,17 @@ public class StartController {
         }
     }
 
+    @FXML
+    void simulate(ActionEvent event){
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(ChessApplication.class.getResource("simulation-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 }

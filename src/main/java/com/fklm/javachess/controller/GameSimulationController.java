@@ -1,17 +1,42 @@
 package com.fklm.javachess.controller;
 
-import com.fklm.javachess.ChessApplication;
+import com.fklm.javachess.Move;
 import com.fklm.javachess.Player;
+import com.fklm.javachess.Position;
 import com.fklm.javachess.Space;
 import com.fklm.javachess.model.chessmen.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GameSimulationController {
-    File game = ChessApplication.game;
+public class GameSimulationController implements Initializable {
+    @FXML
+    private GridPane board;
+
+    BufferedReader reader;
     Space[][] space = new Space[8][8];
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            this.reader = new BufferedReader(new FileReader("game.txt"));
+            String s = reader.readLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(int y=0; y<8; y++) {
+            for (int x = 0; x < 8; x++) {
+                board.add(createSpace(x, y), x, 7 - y);
+            }
+        }
+    }
 
     public Space createSpace(int x, int y){
         ImageView pieceImage;
@@ -30,13 +55,6 @@ public class GameSimulationController {
             pieceImage.setFitWidth(50);
             space[y][x].setGraphic(pieceImage);
         }
-        space[y][x].setOnAction(e->{
-            try {
-                selectedSpace((Space) e.getSource());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
         return space [y][x];
     }
 
@@ -71,5 +89,59 @@ public class GameSimulationController {
             default: p=null;
         }
         return p;
+    }
+
+    @FXML
+    void nextMove() throws IOException {
+       Space start,destiny;
+        if(reader.ready()){
+            String s= reader.readLine();
+            String[] move = s.split(";");
+            String strStart = move[0];
+            String strDestiny = move[1];
+            start = translate(strStart);
+            destiny = translate(strDestiny);
+
+            doMovement(start,destiny);
+            if(move.length == 3){
+                pawnPromotion(move[1],move[2]);
+            }
+        }
+    }
+
+    void doMovement (Space start,Space destiny){
+        destiny.setGraphic(start.getGraphic());
+        destiny.setPiece(start.getPiece());
+        start.setGraphic(null);
+        start.setPiece(null);
+    }
+
+    Space translate(String move){
+        int x = move.charAt(0) - 65;
+        int y = move.charAt(1) - 49;
+
+        return space[y][x];
+    }
+
+    void pawnPromotion(String destiny,String type){
+        Space promoted = translate(destiny);
+        int piece = Integer.valueOf(type);
+        putPiece(piece,promoted);
+    }
+
+    void putPiece(int type,Space promoted){
+        switch (type){
+            case 1: promoted.setPiece(new Rook(promoted.getPiece().getColor(),type));
+                    break;
+            case 2: promoted.setPiece(new Knight(promoted.getPiece().getColor(),type));
+                    break;
+            case 3: promoted.setPiece(new Bishop(promoted.getPiece().getColor(),type));
+                    break;
+            case 4: promoted.setPiece(new Queen(promoted.getPiece().getColor(),type));
+        }
+        ImageView image = new ImageView(promoted.getPiece().getImage());
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+        promoted.setGraphic(image);
     }
 }

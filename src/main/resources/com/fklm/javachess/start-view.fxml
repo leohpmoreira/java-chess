@@ -9,5 +9,6 @@
       <TextField fx:id="player1Name" alignment="CENTER" layoutX="363.0" layoutY="229.0" promptText="Player 1 Name" />
       <TextField fx:id="player2Name" alignment="CENTER" layoutX="769.0" layoutY="229.0" promptText="Player 2 Name" />
       <Button fx:id="startButton" layoutX="620.0" layoutY="476.0" mnemonicParsing="false" onAction="#onStartButtonClick" text="Start" />
+      <Button layoutX="614.0" layoutY="410.0" mnemonicParsing="false" onAction="#simulate" text="simulate" />
    </children>
 </AnchorPane>

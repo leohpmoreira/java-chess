@@ -37,8 +37,8 @@ public class Space extends Button {
 
     public String strPos(){
         char letter;
-        letter =(char) (position.getY() + 65);
-        return (letter +""+ (position.getX()+1) );
+        letter =(char) (position.getX() + 65);
+        return (letter +""+ (position.getY()+1) );
     }
 
     public void setPiece(Piece piece){
